@@ -17,23 +17,23 @@ const PADDLE_HEIGHT = 100,
     PADDLE_THICKNESS = 10,
     WINNING_SCORE = 3;
 
-function calculateMousePosition(event){
+function calculateMousePosition(event) {
     let rect = canvas.getBoundingClientRect(),
         root = document.documentElement,
         mouseX = event.clientX - rect.left - root.scrollLeft,
         mouseY = event.clientY - rect.top - root.scrollTop;
 
-        return {
-            x:mouseX,
-            y:mouseY
-        }
+    return {
+        x: mouseX,
+        y: mouseY
+    }
 }
-
 
 window.addEventListener('load', () => {
 
     canvas = document.getElementById('canvas'),
-    contextCanvas = canvas.getContext('2d');
+        contextCanvas = canvas.getContext('2d'),
+        contextCanvas.font = '30px serif';
 
     const framesPerSecond = 100;
 
@@ -48,21 +48,21 @@ window.addEventListener('load', () => {
 
 });
 
-function handleMouseClick(){
-    if (showingWinScreen){
+function handleMouseClick() {
+    if (showingWinScreen) {
         player1Score = 0;
         player2Score = 0;
         showingWinScreen = false;
     }
 }
 
-function computerMovement(){
+function computerMovement() {
 
     let paddle2YCenter = paddle2Y + (PADDLE_HEIGHT / 2);
 
-    if(paddle2YCenter < ballY - 35){
+    if (paddle2YCenter < ballY - 35) {
         paddle2Y += 6;
-    } else if (paddle2YCenter > ballY + 35){
+    } else if (paddle2YCenter > ballY + 35) {
         paddle2Y -= 6;
     }
 }
@@ -88,7 +88,7 @@ function moveEverything() {
     }
 
     if (ballX < 0) {
-        if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT){
+        if (ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT) {
             ballSpeedX = -(ballSpeedX);
 
             let deltaY = ballY - (paddle2Y + PADDLE_HEIGHT / 2);
@@ -100,7 +100,7 @@ function moveEverything() {
     }
 
     if (ballX > canvas.width) {
-        if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT){
+        if (ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT) {
             ballSpeedX = -ballSpeedX;
         } else {
             player1Score++;
@@ -109,20 +109,20 @@ function moveEverything() {
     }
 }
 
-function colorRect(leftX, topY, width, height, drawColor){
+function colorRect(leftX, topY, width, height, drawColor) {
     contextCanvas.fillStyle = drawColor;
     contextCanvas.fillRect(leftX, topY, width, height);
 }
 
-function colorCircle(centerX, centerY, radius, drawColor){
+function colorCircle(centerX, centerY, radius, drawColor) {
     contextCanvas.fillStyle = drawColor;
     contextCanvas.beginPath();
     contextCanvas.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
     contextCanvas.fill();
 }
 
-function ballReset(){
-    if(player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE){
+function ballReset() {
+    if (player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE) {
         showingWinScreen = true;
     }
     ballSpeedX = -(ballSpeedX);
@@ -130,8 +130,8 @@ function ballReset(){
     ballY = canvas.height / 2;
 }
 
-function drawNet(){
-    for(let i = 0; i < canvas.width; i+=40){
+function drawNet() {
+    for (let i = 0; i < canvas.width; i += 40) {
         colorRect(canvas.width / 2 - 1, i, 2, 20, 'white');
     }
 }
@@ -140,15 +140,15 @@ function drawEverything() {
 
     colorRect(0, 0, canvas.width, canvas.height, 'black');
 
-    if(showingWinScreen){
+    if (showingWinScreen) {
         contextCanvas.fillStyle = 'white';
-        if(player1Score >= WINNING_SCORE){
-            contextCanvas.fillText('left player won', canvas.width / 2 - 30, canvas.height / 2 - 100);
-        } else if (player2Score >= WINNING_SCORE){
-            contextCanvas.fillText('right player won', canvas.width / 2 - 30, canvas.height / 2 - 100);
+        if (player1Score >= WINNING_SCORE) {
+            contextCanvas.fillText('left player won', canvas.width / 2 - 100, canvas.height / 2 - 100);
+        } else if (player2Score >= WINNING_SCORE) {
+            contextCanvas.fillText('right player won', canvas.width / 2 - 100, canvas.height / 2 - 100);
         }
         contextCanvas.fillStyle = 'white';
-        contextCanvas.fillText('click to continue', canvas.width / 2 - 30, canvas.height / 2);
+        contextCanvas.fillText('click to continue', canvas.width / 2 - 100, canvas.height / 2);
         return;
     }
 
